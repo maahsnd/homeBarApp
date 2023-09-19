@@ -10,3 +10,5 @@ const LocationSchema = new Schema({
 LocationSchema.virtual.get(function () {
   return `/inventory/location/${this._id}`;
 });
+
+module.exports = mongoose.model('Location', LocationSchema);

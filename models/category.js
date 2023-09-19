@@ -10,3 +10,5 @@ const CategorySchema = new Schema({
 CategorySchema.virtual.get(function () {
   return `/inventory/category/${this._id}`;
 });
+
+module.exports = mongoose.model('Category', CategorySchema);

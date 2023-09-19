@@ -10,3 +10,5 @@ const AlcoholInstSchema = new Schema({
 AlcoholInstSchema.virtual('url').get(function () {
   return `/inventory/alcoholinst/${this._id}`;
 });
+
+module.exports = mongoose.model('AlcoholInstance', AlcoholInstSchema);
