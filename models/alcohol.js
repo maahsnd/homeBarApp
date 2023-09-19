@@ -7,8 +7,8 @@ const AlcoholSchema = new Schema({
   description: { type: String, required: true, minLength: 20, maxLength: 100 },
   category: [{ type: Schema.Types.ObjectId, ref: 'Category' }],
   price: { type: Number, required: false },
-  fluidvolume: { type: Number, required: true },
-  dateopened: { type: Date, required: false }
+  fluid_volume: { type: Number, required: true },
+  date_opened: { type: Date, required: false }
 });
 
 AlcoholSchema.virtual('url').get(function () {
