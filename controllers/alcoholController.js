@@ -1,6 +1,9 @@
-const alcohol = require('../models/alcohol');
+const Alcohol = require('../models/alcohol');
 const asyncHandler = require('express-async-handler');
 
+exports.index = asyncHandler(async (req, res, next) => {
+  res.send('Not implemented: Home page');
+});
 //Display list of all alcohols
 exports.alcohol_list = asyncHandler(async (req, res, next) => {
   res.send('Not implemented: alcohol list');
