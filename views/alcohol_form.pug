@@ -1,0 +1,29 @@
+extends layout
+
+block content
+  h1=title
+
+  form(method='POST' action='')
+    div.form-group
+      label(for='alcohol_name') Alcohol name:
+      input#alcohol_name.form-control(type='text' placeholder='Alcohol Name' name='alcohol_name' required='true' value=(undefined===alcohol ? '' : alcohol.name) )
+      label(for='alcohol_description') Description:
+      input#alcohol_description.form-control(type='text' placeholder='Alcohol description' name='alcohol_description' required='true' value=(undefined===alcohol ? '' : alcohol.description))
+    div.form-group
+      label(for='alcohol_category') Category:
+      select#alcohol_category.form-control(type='select' name='alcohol_category' required='true')
+        option(value='', selected=true) Select category
+        for category in categories 
+            if (alcohol !== undefined)
+                if category._id === alcohol.category._id
+                    option(value=category._id selected=true) #{category.name}
+            else 
+                option(value=category._id selected=false) #{category.name}
+    div.form-group
+      label(for='alcohol provenance') Provenance:
+      input#alcohol_provenance.form-control(type='text' name='alcohol_provenance' value=(undefined===alcohol ? ''  : (alcohol.provenance===undefined ? '' : alcohol.provenance)) )  
+    button.btn.btn-primary(type='submit') Submit
+  if errors
+    ul
+      for error in errors
+        li!= error.msg

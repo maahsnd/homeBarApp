@@ -58,7 +58,13 @@ exports.alcohol_detail = asyncHandler(async (req, res, next) => {
 
 // Display alcohol create form on GET.
 exports.alcohol_create_get = asyncHandler(async (req, res, next) => {
-  res.send('NOT IMPLEMENTED: alcohol create GET');
+  const allCategories = await Category.find({}, 'name')
+    .sort({ name: 1 })
+    .exec();
+  res.render('alcohol_form', {
+    title: 'Create new alcohol',
+    categories: allCategories
+  });
 });
 
 // Handle alcohol create on POST.
