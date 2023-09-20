@@ -1,22 +1,24 @@
 extends layout 
 
 block content 
-    h1 #{alcoholinst.name}
-    h3 Bottle # #{alcoholinst._id}
+    h3 Bottle ID# #{alcoholinst._id}
     hr
-    p #[strong Description:] #{alcohol.description}
-    p #[strong Category: ] 
-        a(href=alcohol.category.url) #{alcohol.category.name}
-    if alcoholinst.fluid_volumne   
-        p #[strong Fluid volume: ] #{alcohol.fluid_volume}
+    h5 Info:
+    hr
+    p #[strong Alcohol: ]
+        a(href=alcoholinst.alcohol.url) #{alcoholinst.alcohol.name} 
+    p #[strong Location: ]
+        a(href=alcoholinst.location.url) #{alcoholinst.location.name}
     if alcoholinst.price   
-        p #[strong Price: ] #{alcohol.price}
+        p #[strong Price: ] #{alcoholinst.price}
     if alcoholinst.date_opened  
-        p #[strong Date opened:] #{alcohol.date_opened}
+        p #[strong Date opened:] #{alcoholinst.date_opened}
+    if alcoholinst.fluid_volumne   
+        p #[strong Fluid volume: ] #{alcoholinst.fluid_volume}
 
 
     hr
     p   
-        a(href=alcohol.url+'delete') Delete alcohol 
+        a(href=alcoholinst.url+'delete') Delete alcohol 
     p   
-        a(href=alcohol.url+'update') Update alcohol
+        a(href=alcoholinst.url+'update') Update alcohol
