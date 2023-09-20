@@ -1,0 +1,22 @@
+extends layout 
+
+block content 
+    h1 #{alcoholinst.name}
+    h3 Bottle # #{alcoholinst._id}
+    hr
+    p #[strong Description:] #{alcohol.description}
+    p #[strong Category: ] 
+        a(href=alcohol.category.url) #{alcohol.category.name}
+    if alcoholinst.fluid_volumne   
+        p #[strong Fluid volume: ] #{alcohol.fluid_volume}
+    if alcoholinst.price   
+        p #[strong Price: ] #{alcohol.price}
+    if alcoholinst.date_opened  
+        p #[strong Date opened:] #{alcohol.date_opened}
+
+
+    hr
+    p   
+        a(href=alcohol.url+'delete') Delete alcohol 
+    p   
+        a(href=alcohol.url+'update') Update alcohol

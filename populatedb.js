@@ -66,10 +66,7 @@ async function alcoholCreate(
     description: description,
     category: category
   };
-  if (fluid_volume != false) alcoholdetail.fluid_volume = fluid_volume;
-  if (price != false) alcoholdetail.price = price;
   if (provenance != false) alcoholdetail.provenance = provenance;
-  if (date_opened != false) alcoholdetail.date_opened = date_opened;
 
   const alcohol = new Alcohol(alcoholdetail);
 
@@ -83,6 +80,9 @@ async function alcoholInstanceCreate(index, alcohol, location) {
     alcohol: alcohol,
     location: location
   };
+  if (fluid_volume != false) alcoholInstDetail.fluid_volume = fluid_volume;
+  if (price != false) alcoholInstDetail.price = price;
+  if (date_opened != false) alcoholInstDetail.date_opened = date_opened;
 
   const alcoholInst = new AlcoholInstance(alcoholInstDetail);
   await alcoholInst.save();
