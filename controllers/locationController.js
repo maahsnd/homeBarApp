@@ -1,4 +1,5 @@
 const Location = require('../models/location');
+const AlcoholInst = require('../models/alcohol_instance');
 const asyncHandler = require('express-async-handler');
 
 //Display list of all locations
@@ -8,7 +9,26 @@ exports.location_list = asyncHandler(async (req, res, next) => {
 
 // Display detail page for a specific location.
 exports.location_detail = asyncHandler(async (req, res, next) => {
-  res.send(`NOT IMPLEMENTED: location detail: ${req.params.id}`);
+  const selectedLocation = await Location.findById(req.params.id).exec();
+  const locationInventory = await AlcoholInst.find({
+    location: req.params.id
+  })
+    .populate({
+      path: 'alcohol',
+      populate: { path: 'name' }
+    })
+    .populate({
+      path: 'alcohol',
+      populate: {
+        path: 'category',
+        populate: { path: 'name' }
+      }
+    })
+    .exec();
+  res.render('location_detail', {
+    location: selectedLocation,
+    location_alcohols: locationInventory
+  });
 });
 
 // Display location create form on GET.

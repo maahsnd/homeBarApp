@@ -1,0 +1,25 @@
+extends layout 
+
+block content 
+    h1 #{location.name}
+    hr
+    if location.description
+        p #[strong Description:] #{location.description}
+        hr
+    h4 All bottles in #{location.name}
+    hr
+    ul  
+        each bottle in location_alcohols  
+            li 
+                p #{bottle.alcohol.name} (#{bottle.alcohol.category.name}) 
+                a(href=bottle._id) ID# #{bottle._id}
+                p
+        
+        else 
+            p Category has no members
+
+    hr
+    p   
+        a(href=location.url+'delete') Delete location
+    p   
+        a(href=location.url+'update') Update location
