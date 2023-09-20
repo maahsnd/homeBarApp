@@ -1,3 +1,4 @@
+const { findById } = require('../models/alcohol');
 const alcoholInstance = require('../models/alcohol_instance');
 const asyncHandler = require('express-async-handler');
 
@@ -8,7 +9,11 @@ exports.alcoholInstance_list = asyncHandler(async (req, res, next) => {
 
 // Display detail page for a specific alcoholInstance.
 exports.alcoholInstance_detail = asyncHandler(async (req, res, next) => {
-  res.send(`NOT IMPLEMENTED: alcoholInstance detail: ${req.params.id}`);
+  const alcohol_inst = await alcoholInstance
+    .findById(req.params.id)
+    .populate('alcohol location')
+    .exec();
+  res.render('alcoholinst_detail', { alcoholinst: alcohol_inst });
 });
 
 // Display alcoholInstance create form on GET.
