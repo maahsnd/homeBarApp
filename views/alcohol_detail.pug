@@ -1,11 +1,11 @@
 extends layout 
 
 block content 
-    h1 Title: #{alcohol.name}
-
+    h1 #{alcohol.name}
+    hr
     p #[strong Description:] #{alcohol.description}
     p #[strong Category: ] 
-        a(href=alcohol.category.url) #{alcohol.category}
+        a(href=alcohol.category.url) #{alcohol.category.name}
     if alcohol.provenance   
         p #[strong Provenance: ] #{alcohol.provenance}
     if alcohol.fluid_volumne   
@@ -15,13 +15,14 @@ block content
     if alcohol.date_opened  
         p #[strong Date opened:] #{alcohol.date_opened}
 
+    hr
     h4 All bottles 
-
+    hr
     dl  
         each instance in alcohol_instances  
-            dt 
-                a(href=instance.url) #{instance._id}
-            dd Location: #{instance.location}
+            dd Bottle #
+                a(href=instance.url)  #{instance._id}
+            dd Location: #{instance.location.name}
         
         else 
             p Alcohol has no instances
