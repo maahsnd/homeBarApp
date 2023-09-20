@@ -7,7 +7,7 @@ const CategorySchema = new Schema({
   description: { type: String, required: false }
 });
 
-CategorySchema.virtual.get(function () {
+CategorySchema.virtual('url').get(function () {
   return `/inventory/category/${this._id}`;
 });
 

@@ -7,7 +7,7 @@ const LocationSchema = new Schema({
   description: { type: String }
 });
 
-LocationSchema.virtual.get(function () {
+LocationSchema.virtual('url').get(function () {
   return `/inventory/location/${this._id}`;
 });
 
