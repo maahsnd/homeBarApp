@@ -1,0 +1,23 @@
+extends layout 
+
+block content 
+    h1 #{category.name}
+    hr
+    if category.description
+        p #[strong Description:] #{alcohol.description}
+        hr
+    h4 All #{category.name}s
+    hr
+    ul  
+        each alcohol in category_alcohols  
+            li Alcohol:
+                a(href=alcohol.url)  #{alcohol.name} 
+        
+        else 
+            p Category has no members
+
+    hr
+    p   
+        a(href=category.url+'delete') Delete category
+    p   
+        a(href=category.url+'update') Update category

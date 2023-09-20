@@ -1,4 +1,5 @@
 const Category = require('../models/category');
+const Alcohol = require('../models/alcohol');
 const asyncHandler = require('express-async-handler');
 
 //Display list of all categorys
@@ -8,7 +9,15 @@ exports.category_list = asyncHandler(async (req, res, next) => {
 
 // Display detail page for a specific category.
 exports.category_detail = asyncHandler(async (req, res, next) => {
-  res.send(`NOT IMPLEMENTED: category detail: ${req.params.id}`);
+  const category = await Category.findById(req.params.id).exec();
+  const alcoholsInCategory = await Alcohol.find(
+    { category: req.params.id },
+    'name'
+  ).sort({ name: 1 });
+  res.render('category_detail', {
+    category: category,
+    category_alcohols: alcoholsInCategory
+  });
 });
 
 // Display category create form on GET.
