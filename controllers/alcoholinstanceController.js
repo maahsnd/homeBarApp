@@ -1,3 +1,4 @@
+const alcohol = require('../models/alcohol');
 const { findById } = require('../models/alcohol');
 const alcoholInstance = require('../models/alcohol_instance');
 const asyncHandler = require('express-async-handler');
@@ -12,6 +13,13 @@ exports.alcoholInstance_detail = asyncHandler(async (req, res, next) => {
   const alcohol_inst = await alcoholInstance
     .findById(req.params.id)
     .populate('alcohol location')
+    .populate({
+      path: 'alcohol',
+      populate: {
+        path: 'category',
+        populate: { path: 'name' }
+      }
+    })
     .exec();
   res.render('alcoholinst_detail', { alcoholinst: alcohol_inst });
 });
