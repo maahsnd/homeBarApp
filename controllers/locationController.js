@@ -4,7 +4,11 @@ const asyncHandler = require('express-async-handler');
 
 //Display list of all locations
 exports.location_list = asyncHandler(async (req, res, next) => {
-  res.send('Not implemented: location list');
+  const allLocations = await Location.find({});
+  res.render('location_list', {
+    title: 'All Locations',
+    location_list: allLocations
+  });
 });
 
 // Display detail page for a specific location.
