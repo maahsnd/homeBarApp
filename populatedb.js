@@ -24,10 +24,10 @@ async function main() {
   console.log('Debug: About to connect');
   await mongoose.connect(mongoDB);
   console.log('Debug: Should be connected?');
-  await createAlcohols();
-  await createAlcoholInstances();
   await createCategories();
   await createLocations();
+  await createAlcohols();
+  await createAlcoholInstances();
   console.log('Debug: Closing mongoose');
   mongoose.connection.close();
 }
@@ -37,6 +37,18 @@ async function locationCreate(index, name) {
   await location.save();
   locations[index] = location;
   console.log(`Added location: ${name}`);
+}
+
+async function categoryCreate(index, name, description) {
+  const categoryDetail = {
+    name: name
+  };
+  if (description != false) categoryDetail.description = description;
+
+  const category = new Category(categoryDetail);
+  await category.save();
+  categories[index] = category;
+  console.log(`Added category: ${category}`);
 }
 
 async function alcoholCreate(
@@ -63,7 +75,7 @@ async function alcoholCreate(
 
   await alcohol.save();
   alcohols[index] = alcohol;
-  console.log(`Added alcohol: ${name}}`);
+  console.log(`Added alcohol: ${name}`);
 }
 
 async function alcoholInstanceCreate(index, alcohol, location) {
@@ -78,16 +90,9 @@ async function alcoholInstanceCreate(index, alcohol, location) {
   console.log(`Added alcohol instance: ${alcohol} in ${location}`);
 }
 
-async function categoryCreate(index, name, description) {
-  const categoryDetail = {
-    name: name
-  };
-  if (description != false) categoryDetail.description = description;
-
-  const category = new Category(categoryDetail);
-  await category.save();
-  categories[index] = category;
-  console.log(`Added category: ${category}`);
+async function createCategories() {
+  console.log('Adding categories');
+  await Promise.all([categoryCreate(0, 'Gin'), categoryCreate(1, 'Whisky')]);
 }
 
 async function createLocations() {
@@ -96,11 +101,6 @@ async function createLocations() {
     locationCreate(0, 'Nook'),
     locationCreate(1, 'Laundry Room')
   ]);
-}
-
-async function createCategories() {
-  console.log('Adding categories');
-  await Promise.all([categoryCreate(0, 'Gin'), categoryCreate(1, 'Whisky')]);
 }
 
 async function createAlcohols() {
