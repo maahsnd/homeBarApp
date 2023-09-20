@@ -1,4 +1,4 @@
-const alcoholInstance = require('../models/alcoholInstance');
+const alcoholInstance = require('../models/alcohol_instance');
 const asyncHandler = require('express-async-handler');
 
 //Display list of all alcoholInstances
