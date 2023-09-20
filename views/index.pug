@@ -2,4 +2,13 @@ extends layout
 
 block content
   h1= title
-  p Welcome to #{title}
+  p Welcome to #[em BarKeep], a basic inventory management tool for home bartenders.
+
+  p Your bar has the following inventory counts:
+
+  ul
+    li #[strong Alcohols:] !{alcohol_count}
+    li #[strong Alcohol instances:] !{alcohol_instance_count}
+    li #[strong Categories:] !{category_count}
+    li #[strong Locations:] !{location_count}
+

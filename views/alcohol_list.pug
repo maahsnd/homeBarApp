@@ -1,0 +1,13 @@
+extends layout 
+
+block content 
+    h1 = title 
+
+    ul 
+        each alcohol in alcohol_list 
+            li 
+                a(href=alcohol.url) #{alcohol.name}
+                a(href=alcohol.category.url) #{alcohol.category.name}
+        
+        else 
+            li There are no alcohols.

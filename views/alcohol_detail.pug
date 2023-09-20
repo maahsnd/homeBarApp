@@ -1,0 +1,33 @@
+extends layout 
+
+block content 
+    h1 Title: #{alcohol.name}
+
+    p #[strong Description:] #{alcohol.description}
+    p #[strong Category: ] 
+        a(href=alcohol.category.url) #{alcohol.category}
+    if alcohol.provenance   
+        p #[strong Provenance: ] #{alcohol.provenance}
+    if alcohol.fluid_volumne   
+        p #[strong Fluid volume: ] #{alcohol.fluid_volume}
+    if alcohol.price   
+        p #[strong Price: ] #{alcohol.price}
+    if alcohol.date_opened  
+        p #[strong Date opened:] #{alcohol.date_opened}
+
+    h4 All bottles 
+
+    dl  
+        each instance in alcohol_instances  
+            dt 
+                a(href=instance.url) #{instance._id}
+            dd Location: #{instance.location}
+        
+        else 
+            p Alcohol has no instances
+
+    hr
+    p   
+        a(href=alcohol.url+'delete') Delete alcohol 
+    p   
+        a(href=alcohol.url+'update') Update alcohol
