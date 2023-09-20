@@ -40,8 +40,10 @@ exports.alcohol_list = asyncHandler(async (req, res, next) => {
 // Display detail page for a specific alcohol.
 exports.alcohol_detail = asyncHandler(async (req, res, next) => {
   const [alcohol, alcohol_instances] = await Promise.all([
-    Alcohol.findById(req.params.id).exec(),
-    AlcoholInstance.find({ alcohol: req.params.id }, 'location').exec()
+    Alcohol.findById(req.params.id).populate('category').exec(),
+    AlcoholInstance.find({ alcohol: req.params.id }, 'location')
+      .populate('location')
+      .exec()
   ]);
   if (alcohol === null) {
     const err = new Error('Author not found');
