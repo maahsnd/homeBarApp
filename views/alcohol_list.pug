@@ -1,13 +1,13 @@
 extends layout 
 
 block content 
-    h1 = title 
-
+    h1= title 
     ul 
         each alcohol in alcohol_list 
             li 
-                a(href=alcohol.url) #{alcohol.name}
-                a(href=alcohol.category.url) #{alcohol.category.name}
+                a(href=alcohol.url) #{alcohol.name }  (#{alcohol.category.name})
         
         else 
-            li There are no alcohols.
+            p I regret to inform you that, at present, this is a dry site. 
+            p That is to say, there is no alcohol here, my friend.
+            p Please amend that by visiting the create links.
