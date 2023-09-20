@@ -27,7 +27,14 @@ exports.index = asyncHandler(async (req, res, next) => {
 
 //Display list of all alcohols
 exports.alcohol_list = asyncHandler(async (req, res, next) => {
-  res.send('Not implemented: alcohol list');
+  const allAlcohols = await Alcohol.find({}, 'name category')
+    .sort({ name: 1 })
+    .populate('category')
+    .exec();
+  res.render('alcohol_list', {
+    title: 'Alcohol list',
+    alcohol_list: allAlcohols
+  });
 });
 
 // Display detail page for a specific alcohol.
