@@ -5,7 +5,20 @@ const asyncHandler = require('express-async-handler');
 
 //Display list of all alcoholInstances
 exports.alcoholInstance_list = asyncHandler(async (req, res, next) => {
-  res.send('Not implemented: alcoholInstance list');
+  const allBottles = await alcoholInstance
+    .find({}, 'alcohol')
+    .populate('alcohol')
+    .populate({
+      path: 'alcohol',
+      populate: {
+        path: 'category',
+        populate: { path: 'name' }
+      }
+    });
+  res.render('alcoholinst_list', {
+    title: 'All Bottles',
+    alcohol_list: allBottles
+  });
 });
 
 // Display detail page for a specific alcoholInstance.
