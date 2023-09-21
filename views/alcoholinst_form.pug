@@ -1,0 +1,43 @@
+extends layout
+
+block content
+  h1=title
+
+  form(method='POST' action='')
+    div.form-group
+      label(for='alcohol') Alcohol:
+      select#alcohol.form-control(type='select' name='alcohol' required='true')
+        option(value='', selected=true) Select category
+        for alcohol in all_alcohols
+            if (selected_alcohol !== undefined)
+                option(value=alcohol._id selected=(alcohol_selected._id.toString()===alcohol._id.toString() ? true : false)) #{alcohol.name}
+            else 
+                option(value=alcohol._id selected=false) #{alcohol.name}
+      div.form-group
+      label(for='location') Location:
+      select#location.form-control(type='select' name='location' required='true')
+        option(value='', selected=true) Select location
+        for location in locations
+            if (alcohol_inst !== undefined)
+                option(value=location._id selected=(alcohol_inst.location._id.toString()===location._id.toString() ? true : false)) #{location.name}
+            else 
+                option(value=location._id selected=false) #{location.name}
+    div.form-group
+      label(for='date_opened') Date opened:
+      input#date_opened.form-control(type='date' name='date_opened' value=(undefined===alcohol_inst ? ''  : (alcohol_inst.date_opened===undefined ? '' : alcohol_inst.date_opened)) )  
+    div.form-group
+      label(for='fluid_volume') Fluid volume
+      input#date_opened.form-control(type='text' name='fluid_volume' value=(undefined===alcohol_inst ? ''  : (alcohol_inst.fluid_volume===undefined ? '' : alcohol_inst.fluid_volume)) ) 
+    div.form-group
+      label(for='price') Price:
+      input#price.form-control(type='text' name='price' value=(undefined===alcohol_inst ? ''  : (alcohol_inst.price===undefined ? '' : alcohol_inst.price)) )  
+    button.btn.btn-primary(type='submit') Submit
+  if errors
+    hr
+    if (errors.length > 1)
+        h3.error Errors: 
+    else 
+        h3.error Error:
+    ul
+      for error in errors
+        li.error!= error.msg
