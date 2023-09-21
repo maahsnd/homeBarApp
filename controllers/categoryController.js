@@ -1,6 +1,7 @@
 const Category = require('../models/category');
 const Alcohol = require('../models/alcohol');
 const asyncHandler = require('express-async-handler');
+const { body, validationResult } = require('express-validator');
 
 //Display list of all categorys
 exports.category_list = asyncHandler(async (req, res, next) => {
@@ -26,13 +27,41 @@ exports.category_detail = asyncHandler(async (req, res, next) => {
 
 // Display category create form on GET.
 exports.category_create_get = asyncHandler(async (req, res, next) => {
-  res.send('NOT IMPLEMENTED: category create GET');
+  res.render('category_form', { title: 'Create new category' });
 });
 
 // Handle category create on POST.
-exports.category_create_post = asyncHandler(async (req, res, next) => {
-  res.send('NOT IMPLEMENTED: category create POST');
-});
+exports.category_create_post = [
+  body(
+    'category_name',
+    'Category name required. Must be between 2 and 30 characters'
+  )
+    .trim()
+    .isLength({ min: 2, max: 30 })
+    .escape(),
+  body('category_description').trim().escape(),
+
+  asyncHandler(async (req, res, next) => {
+    const errors = validationResult(req);
+
+    const category = new Category({
+      name: req.body.category_name,
+      description: req.body.category_description
+    });
+    if (!errors.isEmpty()) {
+      res.render('category_form', {
+        title: 'Create new category',
+        category: category,
+        errors: errors.array()
+      });
+      return;
+    } else {
+      await category.save();
+
+      res.redirect(category.url);
+    }
+  })
+];
 
 // Display category delete form on GET.
 exports.category_delete_get = asyncHandler(async (req, res, next) => {
