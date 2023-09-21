@@ -1,6 +1,7 @@
 const Location = require('../models/location');
 const AlcoholInst = require('../models/alcohol_instance');
 const asyncHandler = require('express-async-handler');
+const { body, validationResult } = require('express-validator');
 
 //Display list of all locations
 exports.location_list = asyncHandler(async (req, res, next) => {
@@ -34,16 +35,43 @@ exports.location_detail = asyncHandler(async (req, res, next) => {
     location_alcohols: locationInventory
   });
 });
-
 // Display location create form on GET.
 exports.location_create_get = asyncHandler(async (req, res, next) => {
-  res.send('NOT IMPLEMENTED: location create GET');
+  res.render('location_form', { title: 'Create new location' });
 });
 
 // Handle location create on POST.
-exports.location_create_post = asyncHandler(async (req, res, next) => {
-  res.send('NOT IMPLEMENTED: location create POST');
-});
+exports.location_create_post = [
+  body(
+    'location_name',
+    'Location name required. Must be between 2 and 20 characters'
+  )
+    .trim()
+    .isLength({ min: 2, max: 20 })
+    .escape(),
+  body('location_description').trim().escape(),
+
+  asyncHandler(async (req, res, next) => {
+    const errors = validationResult(req);
+
+    const location = new Location({
+      name: req.body.location_name,
+      description: req.body.location_description
+    });
+    if (!errors.isEmpty()) {
+      res.render('location_form', {
+        title: 'Create new location',
+        location: location,
+        errors: errors.array()
+      });
+      return;
+    } else {
+      await location.save();
+
+      res.redirect(location.url);
+    }
+  })
+];
 
 // Display location delete form on GET.
 exports.location_delete_get = asyncHandler(async (req, res, next) => {

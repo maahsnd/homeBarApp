@@ -1,0 +1,22 @@
+extends layout
+
+block content
+  h1=title
+
+  form(method='POST' action='')
+    div.form-group
+      label(for='location_name') Location name:
+      input#location_name.form-control(type='text' placeholder='Location Name' name='location_name' required='true' value=(undefined===location ? '' : location.name) )
+    div.form-group
+      label(for='location_description') Description:
+      input#location_description.form-control(type='text' placeholder='Location description' name='location_description'  value=(undefined===location ? '' : location.description))
+    button.btn.btn-primary(type='submit') Submit
+  if errors
+    hr
+    if (errors.length > 1)
+        h3.error Errors: 
+    else 
+        h3.error Error:
+    ul
+      for error in errors
+        li.error!= error.msg
