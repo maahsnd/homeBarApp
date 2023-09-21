@@ -38,10 +38,16 @@ router.get('/alcohol', alcohol_controller.alcohol_list);
 /* ALCOHOL INSTANCE ROUTES */
 
 //GET Alcohol Instance create
-router.get('/alcoholinst/create', alcohol_controller.alcohol_create_get);
+router.get(
+  '/alcoholinst/create',
+  alcohol_inst_controller.alcoholInstance_create_get
+);
 
 //POST Alcohol Instance create
-router.post('/alcoholinst/create', alcohol_controller.alcohol_create_post);
+router.post(
+  '/alcoholinst/create',
+  alcohol_inst_controller.alcoholInstance_create_post
+);
 
 //GET Alcohol Instance delete
 router.get(
