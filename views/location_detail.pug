@@ -12,7 +12,7 @@ block content
         each bottle in location_alcohols  
             li 
                 p #{bottle.alcohol.name} (#{bottle.alcohol.category.name}) 
-                a(href=bottle._id) ID# #{bottle._id}
+                a(href='/inventory/alcoholinst/'+bottle._id) ID# #{bottle._id}
                 p
         
         else 
