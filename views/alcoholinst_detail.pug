@@ -3,8 +3,7 @@ extends layout
 block content 
     h3 Bottle ID# #{alcoholinst._id}
     hr
-    h5 Info:
-    hr
+    h5 #[em Info:]
     p #[strong Alcohol: ]
         a(href=alcoholinst.alcohol.url) #{alcoholinst.alcohol.name} (#{alcoholinst.alcohol.category.name})
     p #[strong Location: ]
