@@ -3,6 +3,7 @@ const AlcoholInstance = require('../models/alcohol_instance');
 const Location = require('../models/location');
 const Category = require('../models/category');
 const asyncHandler = require('express-async-handler');
+const { body, validationResult } = require('express-validator');
 
 exports.index = asyncHandler(async (req, res, next) => {
   const [
@@ -68,9 +69,56 @@ exports.alcohol_create_get = asyncHandler(async (req, res, next) => {
 });
 
 // Handle alcohol create on POST.
-exports.alcohol_create_post = asyncHandler(async (req, res, next) => {
-  res.send('NOT IMPLEMENTED: alcohol create POST');
-});
+exports.alcohol_create_post = [
+  (req, res, next) => {
+    if (!(req.body.alcohol_category instanceof Array)) {
+      if (typeof req.body.alcohol_category === 'undefined')
+        req.body.alcohol_category = [];
+      else req.body.alcohol_category = new Array(req.body.alcohol_category);
+    }
+    next();
+  },
+
+  body('alcohol_name', 'Name required, must be between length 2 and 30')
+    .trim()
+    .isLength({ min: 2, max: 30 })
+    .escape(),
+  body(
+    'alcohol_description',
+    'Description required, must be between length 20 and 500'
+  )
+    .trim()
+    .isLength({ min: 20, max: 500 })
+    .escape(),
+  body('alcohol_category', 'Category required').escape(),
+  body('alcohol_provenance').trim().escape(),
+
+  asyncHandler(async (req, res, next) => {
+    const errors = validationResult(req);
+
+    const alcohol = new Alcohol({
+      name: req.body.alcohol_name,
+      description: req.body.alcohol_description,
+      category: req.body.alcohol_category,
+      provenance: req.body.alcohol_provenance
+    });
+
+    if (!errors.isEmpty()) {
+      const allCategories = await Category.find().exec();
+      res.render('alcohol_form', {
+        title: 'Create alcohol',
+        categories: allCategories,
+        alcohol: alcohol,
+        errors: errors.array()
+      });
+      return;
+    } else {
+      await alcohol.save();
+
+      res.redirect(alcohol.url);
+    }
+  })
+];
 
 // Display alcohol delete form on GET.
 exports.alcohol_delete_get = asyncHandler(async (req, res, next) => {

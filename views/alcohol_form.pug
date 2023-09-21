@@ -15,8 +15,7 @@ block content
         option(value='', selected=true) Select category
         for category in categories 
             if (alcohol !== undefined)
-                if category._id === alcohol.category._id
-                    option(value=category._id selected=true) #{category.name}
+                option(value=category._id selected=(category._id.toString()===alcohol.category._id.toString() ? true : false)) #{category.name}
             else 
                 option(value=category._id selected=false) #{category.name}
     div.form-group
@@ -24,6 +23,11 @@ block content
       input#alcohol_provenance.form-control(type='text' name='alcohol_provenance' value=(undefined===alcohol ? ''  : (alcohol.provenance===undefined ? '' : alcohol.provenance)) )  
     button.btn.btn-primary(type='submit') Submit
   if errors
+    hr
+    if (errors.length > 1)
+        h3.error Errors: 
+    else 
+        h3.error Error:
     ul
       for error in errors
-        li!= error.msg
+        li.error!= error.msg
