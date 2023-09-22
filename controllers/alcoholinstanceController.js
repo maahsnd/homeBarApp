@@ -4,6 +4,7 @@ const { findById } = require('../models/alcohol');
 const AlcoholInstance = require('../models/alcohol_instance');
 const asyncHandler = require('express-async-handler');
 const { body, validationResult } = require('express-validator');
+const { DateTime } = require('luxon');
 
 //Display list of all alcoholInstances
 exports.alcoholInstance_list = asyncHandler(async (req, res, next) => {
@@ -147,11 +148,54 @@ exports.alcoholInstance_update_get = asyncHandler(async (req, res, next) => {
     title: 'Update alcohol instance (bottle)',
     all_alcohols: all_alcohols,
     alcohol_inst: alcohol_inst,
+    formatted_date: alcohol_inst.date_yyyy,
     locations: locations
   });
 });
 
 // Handle alcoholInstance update on POST.
-exports.alcoholInstance_update_post = asyncHandler(async (req, res, next) => {
-  res.send('NOT IMPLEMENTED: alcoholInstance update POST');
-});
+exports.alcoholInstance_update_post = [
+  body('alcohol', 'Alcohol required').escape('alcohol.*'),
+  body('location', 'Location required').escape('location.*'),
+  body('date_opened').optional({ values: 'falsy' }).isISO8601().toDate(),
+  body('fluid_volume').optional({ values: 'falsy' }).trim().escape(),
+  body('price').optional({ values: 'falsy' }).trim().escape(),
+
+  asyncHandler(async (req, res, next) => {
+    const errors = validationResult(req);
+
+    const updatedAlcoholInst = new AlcoholInstance({
+      alcohol: req.body.alcohol,
+      location: req.body.location,
+      date_opened: req.body.date_opened,
+      fluid_volume: req.body.fluid_volume,
+      price: req.body.price,
+      _id: req.params.id
+    });
+
+    if (!errors.isEmpty()) {
+      const [all_alcohols, locations] = await Promise.all([
+        Alcohol.find({}, 'name').sort({ name: 1 }).exec(),
+        Location.find({}, 'name').sort({ name: 1 }).exec()
+      ]);
+
+      res.render('alcoholinst_form', {
+        title: 'Update alcohol instance (bottle)',
+        all_alcohols: all_alcohols,
+        alcohol_inst: updatedAlcoholInst,
+        formatted_date: alcohol_inst.date_yyyy,
+        locations: locations,
+        errors: errors.array()
+      });
+      return;
+    } else {
+      await AlcoholInstance.findByIdAndUpdate(
+        req.params.id,
+        updatedAlcoholInst,
+        {}
+      );
+
+      res.redirect(updatedAlcoholInst.url);
+    }
+  })
+];

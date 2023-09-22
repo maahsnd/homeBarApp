@@ -24,7 +24,7 @@ block content
                 option(value=location._id selected=false) #{location.name}
     div.form-group
       label(for='date_opened') Date opened:
-      input#date_opened.form-control(type='date' name='date_opened' value=(undefined===alcohol_inst ? ''  : (alcohol_inst.date_opened===undefined ? '' : alcohol_inst.date_opened)) )  
+      input#date_opened.form-control(type='date' name='date_opened' value=(undefined===alcohol_inst ? ''  : (alcohol_inst.date_opened===undefined ? '' : formatted_date)) )  
     div.form-group
       label(for='fluid_volume') Fluid volume:
       input#date_opened.form-control(type='text' name='fluid_volume' value=(undefined===alcohol_inst ? ''  : (alcohol_inst.fluid_volume===undefined ? '' : alcohol_inst.fluid_volume)) ) 
