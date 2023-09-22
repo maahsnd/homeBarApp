@@ -126,7 +126,11 @@ exports.alcoholInstance_delete_get = asyncHandler(async (req, res, next) => {
 
 // Handle alcoholInstance delete on POST.
 exports.alcoholInstance_delete_post = asyncHandler(async (req, res, next) => {
-  res.send('NOT IMPLEMENTED: alcoholInstance delete POST');
+  const alcoholInst = await AlcoholInstance.findById(req.params.id)
+    .populate('alcohol')
+    .exec();
+  await AlcoholInstance.findByIdAndRemove(req.params.id);
+  res.redirect(alcoholInst.alcohol.url);
 });
 
 // Display alcoholInstance update form on GET.
