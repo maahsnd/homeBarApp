@@ -1,0 +1,15 @@
+extends layout 
+
+block content 
+    h3 Delete bottle: 
+        a(style='font-size:80%')(href=alcoholinst.url) ID# #{alcoholinst._id}
+    hr
+
+    p Do you really want to delete your bottle of #[strong #[em #{alcoholinst.alcohol.name} (#{alcoholinst.alcohol.category.name})]] ID# #[strong #{alcoholinst._id}] ?
+       
+
+    form(method='POST' action='')
+        div.form-group
+            input#alcoholinstid.form-control(type='hidden', name='alcoholinstid', required='true', value=alcoholinst._id)
+        
+        button.btn.btn-primary(type='submit') Delete

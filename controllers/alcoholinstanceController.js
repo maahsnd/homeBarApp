@@ -111,7 +111,17 @@ exports.alcoholInstance_create_post = [
 
 // Display alcoholInstance delete form on GET.
 exports.alcoholInstance_delete_get = asyncHandler(async (req, res, next) => {
-  res.send('NOT IMPLEMENTED: alcoholInstance delete GET');
+  const alcoholInst = await AlcoholInstance.findById(req.params.id)
+    .populate('alcohol')
+    .populate({
+      path: 'alcohol',
+      populate: {
+        path: 'category',
+        populate: { path: 'name' }
+      }
+    })
+    .exec();
+  res.render('alcoholinst_delete', { alcoholinst: alcoholInst });
 });
 
 // Handle alcoholInstance delete on POST.
