@@ -188,7 +188,8 @@ exports.alcohol_update_post = [
       res.render('alcohol_form', {
         title: 'Update alcohol',
         alcohol: updatedAlcohol,
-        categories: categories
+        categories: categories,
+        errors: errors.array()
       });
       return;
     } else {
