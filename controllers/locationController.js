@@ -75,7 +75,24 @@ exports.location_create_post = [
 
 // Display location delete form on GET.
 exports.location_delete_get = asyncHandler(async (req, res, next) => {
-  res.send('NOT IMPLEMENTED: location delete GET');
+  const [location, location_bottles] = await Promise.all([
+    Location.findById(req.params.id).exec(),
+    AlcoholInst.find({ location: req.params.id })
+      .populate('alcohol')
+      .populate({
+        path: 'alcohol',
+        populate: {
+          path: 'category',
+          populate: { path: 'name' }
+        }
+      })
+      .sort({ alcohol: 1 })
+      .exec()
+  ]);
+  res.render('location_delete', {
+    location: location,
+    location_bottles: location_bottles
+  });
 });
 
 // Handle location delete on POST.

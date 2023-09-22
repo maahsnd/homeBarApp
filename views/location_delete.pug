@@ -1,0 +1,26 @@
+extends layout 
+
+block content 
+    h3 Delete: 
+        a(style='font-size:80%')(href=location.url) #{location.name}
+    hr
+
+    if location_bottles.length 
+
+        p #[strong You must delete or move (update the location of) the following instances (bottles) before attempting to delete this location:]
+
+        div(style='margin-left:20px;margin-top:20px')
+            ul 
+            each bottle in location_bottles
+                li  
+                    a(href=bottle.url) #{bottle.alcohol.name} #{bottle.alcohol.category.name}, ID# #{bottle._id}
+
+    else 
+        p Do you really want to delete #[strong #{location.name}] ?
+       
+
+        form(method='POST' action='')
+            div.form-group
+                input#locationid.form-control(type='hidden', name='locationid', required='true', value=location._id)
+            
+            button.btn.btn-primary(type='submit') Delete
