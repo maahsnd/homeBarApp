@@ -135,7 +135,8 @@ exports.alcohol_delete_get = asyncHandler(async (req, res, next) => {
 
 // Handle alcohol delete on POST.
 exports.alcohol_delete_post = asyncHandler(async (req, res, next) => {
-  res.send('NOT IMPLEMENTED: alcohol delete POST');
+  await Alcohol.findByIdAndRemove(req.params.id);
+  res.redirect('/inventory/alcohol');
 });
 
 // Display alcohol update form on GET.
