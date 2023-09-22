@@ -146,7 +146,6 @@ exports.alcohol_update_get = asyncHandler(async (req, res, next) => {
     Alcohol.findById(req.params.id).populate('category').exec(),
     Category.find({}, 'name').sort({ name: 1 }).exec()
   ]);
-  console.log(alcohol.description);
   res.render('alcohol_form', {
     title: 'Update alcohol',
     alcohol: alcohol,
@@ -155,6 +154,47 @@ exports.alcohol_update_get = asyncHandler(async (req, res, next) => {
 });
 
 // Handle alcohol update on POST.
-exports.alcohol_update_post = asyncHandler(async (req, res, next) => {
-  res.send('NOT IMPLEMENTED: alcohol update POST');
-});
+exports.alcohol_update_post = [
+  body('alcohol_name', 'Name required, must be between 2 and 30 characters')
+    .trim()
+    .isLength({ min: 2, max: 30 })
+    .escape(),
+  body(
+    'alcohol_description',
+    'Description required, must be between 20 and 500 characters'
+  )
+    .trim()
+    .isLength({ min: 20, max: 500 })
+    .escape(),
+  body('alcohol_category').escape('alcohol_category.*'),
+  body('alcohol_provenance').optional({ values: 'falsy' }).trim().escape(),
+
+  asyncHandler(async (req, res, next) => {
+    const errors = validationResult(req);
+
+    const updatedAlcohol = new Alcohol({
+      name: req.body.alcohol_name,
+      description: req.body.alcohol_description,
+      category: req.body.alcohol_category,
+      provenance: req.body.alcohol_provenance,
+      _id: req.params.id
+    });
+
+    if (!errors.isEmpty()) {
+      const categories = await Category.find({}, 'name')
+        .sort({ name: 1 })
+        .exec();
+
+      res.render('alcohol_form', {
+        title: 'Update alcohol',
+        alcohol: updatedAlcohol,
+        categories: categories
+      });
+      return;
+    } else {
+      await Alcohol.findByIdAndUpdate(req.params.id, updatedAlcohol, {});
+
+      res.redirect(updatedAlcohol.url);
+    }
+  })
+];
