@@ -1,0 +1,8 @@
+form(method='POST' action='')
+    div.form-group
+    label(for='password') Password
+    input#alcohol_name.form-control(type='text' placeholder='Password' name='password' required='true' )
+    button.btn.btn-primary(type='submit') Submit
+if error
+        h3(style="color:red") #{error}
+
