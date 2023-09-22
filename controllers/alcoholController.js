@@ -122,7 +122,15 @@ exports.alcohol_create_post = [
 
 // Display alcohol delete form on GET.
 exports.alcohol_delete_get = asyncHandler(async (req, res, next) => {
-  res.send('NOT IMPLEMENTED: alcohol delete GET');
+  const [alcohol, alcoholInstances] = await Promise.all([
+    Alcohol.findById(req.params.id).populate('category').exec(),
+    AlcoholInstance.find({ alcohol: req.params.id }).sort({ _id: 1 }).exec()
+  ]);
+  res.render('alcohol_delete', {
+    title: 'Delete alcohol',
+    alcohol: alcohol,
+    alcohol_instances: alcoholInstances
+  });
 });
 
 // Handle alcohol delete on POST.

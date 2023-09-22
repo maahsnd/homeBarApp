@@ -1,0 +1,29 @@
+extends layout 
+
+block content 
+    h3 Delete 
+        a(style='font-size:80%')(href=alcohol.url) #{alcohol.name} (#{alcohol.category.name})
+    hr
+
+    if alcohol_instances.length 
+
+        p #[strong Delete the following instances (bottles) before attempting to delete this alcohol.]
+
+        div(style='margin-left:20px;margin-top:20px')
+
+            h4 Bottles 
+
+            dl 
+            each bottle in alcohol_instances 
+                dt  
+                    a(href=bottle.url) ID# #{bottle._id}
+
+    else 
+        p Do you really want to delete #[strong #{alcohol.name} (#{alcohol.category.name})] ?
+       
+
+        form(method='POST' action='')
+            div.form-group
+                input#alcoholid.form-control(type='hidden', name='alcoholid', required='true', value=alcohol._id)
+            
+            button.btn.btn-primary(type='submit') Delete
