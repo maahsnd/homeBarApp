@@ -77,7 +77,8 @@ exports.category_delete_get = asyncHandler(async (req, res, next) => {
 
 // Handle category delete on POST.
 exports.category_delete_post = asyncHandler(async (req, res, next) => {
-  res.send('NOT IMPLEMENTED: category delete POST');
+  await Category.findByIdAndRemove(req.params.id);
+  res.redirect('/inventory/category');
 });
 
 // Display category update form on GET.
