@@ -1,0 +1,27 @@
+extends layout 
+
+block content 
+    h3 Delete category: 
+        a(style='font-size:80%')(href=category.url) #{category.name}
+    hr
+
+    if category_alcohols.length 
+
+        p #[strong You must delete the following alcohols before attempting to delete this category:]
+
+        div(style='margin-left:20px;margin-top:20px')
+            ul
+            each alcohol in category_alcohols
+                li  
+                    a(href=alcohol.url) #{alcohol.name} #{category.name}
+        hr
+
+    else 
+        p Do you really want to delete #[strong #{category.name}] ?
+       
+
+        form(method='POST' action='')
+            div.form-group
+                input#categoryid.form-control(type='hidden', name='categoryid', required='true', value=category._id)
+            
+            button.btn.btn-primary(type='submit') Delete
