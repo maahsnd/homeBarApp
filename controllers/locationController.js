@@ -97,7 +97,8 @@ exports.location_delete_get = asyncHandler(async (req, res, next) => {
 
 // Handle location delete on POST.
 exports.location_delete_post = asyncHandler(async (req, res, next) => {
-  res.send('NOT IMPLEMENTED: location delete POST');
+  await Location.findByIdAndRemove(req.params.id);
+  res.redirect('/inventory/location');
 });
 
 // Display location update form on GET.
