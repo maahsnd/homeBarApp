@@ -134,7 +134,21 @@ exports.alcoholInstance_delete_post = asyncHandler(async (req, res, next) => {
 
 // Display alcoholInstance update form on GET.
 exports.alcoholInstance_update_get = asyncHandler(async (req, res, next) => {
-  res.send('NOT IMPLEMENTED: alcoholInstance update GET');
+  const [all_alcohols, alcohol_inst, locations] = await Promise.all([
+    Alcohol.find({}, 'name').sort({ name: 1 }).exec(),
+    AlcoholInstance.findById(req.params.id)
+      .populate('alcohol')
+      .populate('location')
+      .exec(),
+    Location.find({}, 'name').sort({ name: 1 }).exec()
+  ]);
+
+  res.render('alcoholinst_form', {
+    title: 'Update alcohol instance (bottle)',
+    all_alcohols: all_alcohols,
+    alcohol_inst: alcohol_inst,
+    locations: locations
+  });
 });
 
 // Handle alcoholInstance update on POST.
