@@ -112,7 +112,7 @@ router.post('/location/create', location_controller.location_create_post);
 router.get('/location/:id/delete', location_controller.location_delete_get);
 
 //POST Location delete
-router.post('/location/:id/delete', location_controller.location_delete_get);
+router.post('/location/:id/delete', location_controller.location_delete_post);
 
 //GET Location update
 router.get('/location/:id/update', location_controller.location_update_get);
