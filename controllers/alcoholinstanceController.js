@@ -7,8 +7,7 @@ const { body, validationResult } = require('express-validator');
 
 //Display list of all alcoholInstances
 exports.alcoholInstance_list = asyncHandler(async (req, res, next) => {
-  const allBottles = await alcoholInstance
-    .find({}, 'alcohol')
+  const allBottles = await AlcoholInstance.find({}, 'alcohol')
     .populate('alcohol')
     .populate({
       path: 'alcohol',
