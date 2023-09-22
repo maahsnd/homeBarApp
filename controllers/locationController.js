@@ -103,10 +103,44 @@ exports.location_delete_post = asyncHandler(async (req, res, next) => {
 
 // Display location update form on GET.
 exports.location_update_get = asyncHandler(async (req, res, next) => {
-  res.send('NOT IMPLEMENTED: location update GET');
+  const location = await Location.findById(req.params.id).exec();
+  res.render('location_form', {
+    title: `Update location: ${location.name}`,
+    location: location
+  });
 });
 
 // Handle location update on POST.
-exports.location_update_post = asyncHandler(async (req, res, next) => {
-  res.send('NOT IMPLEMENTED: location update POST');
-});
+exports.location_update_post = [
+  body(
+    'location_name',
+    'Location required, must be between 2 and 30 characters'
+  )
+    .trim()
+    .isLength({ min: 2, max: 20 })
+    .escape(),
+  body('location_description').optional({ values: 'falsy' }).trim().escape(),
+
+  asyncHandler(async (req, res, next) => {
+    const originalLocation = await Location.findById(req.params.id);
+    const errors = validationResult(req);
+
+    const updatedLocation = new Location({
+      name: req.body.location_name,
+      description: req.body.location_description
+    });
+
+    if (!errors.isEmpty()) {
+      res.render('location_form', {
+        title: `Update location: ${originalLocation.name}`,
+        location: updatedLocation,
+        errors: errors.array()
+      });
+      return;
+    } else {
+      await Location.findByIdAndUpdate(req.params.id, updatedLocation, {});
+
+      res.redirect(updatedLocation.url);
+    }
+  })
+];
