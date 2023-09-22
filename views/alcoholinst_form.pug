@@ -9,8 +9,8 @@ block content
       select#alcohol.form-control(type='select' name='alcohol' required='true')
         option(value='', selected=true) Select category
         for alcohol in all_alcohols
-            if (selected_alcohol !== undefined)
-                option(value=alcohol._id selected=(alcohol_selected._id.toString()===alcohol._id.toString() ? true : false)) #{alcohol.name}
+            if (alcohol_inst !== undefined)
+                option(value=alcohol._id selected=(alcohol_inst.alcohol._id.toString()===alcohol._id.toString() ? true : false)) #{alcohol.name}
             else 
                 option(value=alcohol._id selected=false) #{alcohol.name}
       div.form-group
@@ -26,7 +26,7 @@ block content
       label(for='date_opened') Date opened:
       input#date_opened.form-control(type='date' name='date_opened' value=(undefined===alcohol_inst ? ''  : (alcohol_inst.date_opened===undefined ? '' : alcohol_inst.date_opened)) )  
     div.form-group
-      label(for='fluid_volume') Fluid volume
+      label(for='fluid_volume') Fluid volume:
       input#date_opened.form-control(type='text' name='fluid_volume' value=(undefined===alcohol_inst ? ''  : (alcohol_inst.fluid_volume===undefined ? '' : alcohol_inst.fluid_volume)) ) 
     div.form-group
       label(for='price') Price:
