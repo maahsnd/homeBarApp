@@ -114,6 +114,7 @@ exports.alcohol_create_post = [
       return;
     } else {
       await alcohol.save();
+      e;
 
       res.redirect(alcohol.url);
     }
@@ -141,7 +142,16 @@ exports.alcohol_delete_post = asyncHandler(async (req, res, next) => {
 
 // Display alcohol update form on GET.
 exports.alcohol_update_get = asyncHandler(async (req, res, next) => {
-  res.send('NOT IMPLEMENTED: alcohol update GET');
+  const [alcohol, categories] = await Promise.all([
+    Alcohol.findById(req.params.id).populate('category').exec(),
+    Category.find({}, 'name').sort({ name: 1 }).exec()
+  ]);
+  console.log(alcohol.description);
+  res.render('alcohol_form', {
+    title: 'Update alcohol',
+    alcohol: alcohol,
+    categories: categories
+  });
 });
 
 // Handle alcohol update on POST.
