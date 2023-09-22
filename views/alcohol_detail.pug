@@ -3,6 +3,7 @@ extends layout
 block content 
     h1 #{alcohol.name}
     hr
+    h5 #[em Info:]
     p #[strong Description:] #{alcohol.description}
     p #[strong Category: ] 
         a(href=alcohol.category.url) #{alcohol.category.name}
