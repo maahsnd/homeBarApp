@@ -169,6 +169,7 @@ exports.alcoholInstance_update_post = [
       date_opened: req.body.date_opened,
       fluid_volume: req.body.fluid_volume,
       price: req.body.price,
+      errors: errors.array(),
       _id: req.params.id
     });
 
