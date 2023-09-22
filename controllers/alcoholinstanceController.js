@@ -144,7 +144,7 @@ exports.alcoholInstance_update_get = asyncHandler(async (req, res, next) => {
   ]);
 
   res.render('alcoholinst_form', {
-    title: 'Update bottle',
+    title: `Update bottle`,
     all_alcohols: all_alcohols,
     alcohol_inst: alcohol_inst,
     formatted_date: alcohol_inst.date_yyyy,

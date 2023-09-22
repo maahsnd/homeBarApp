@@ -1,8 +1,9 @@
 extends layout
 
 block content
-  h1=title
-
+  h1=title 
+  h4 ID# 
+    a(href=alcohol_inst.url) #{alcohol_inst._id}
   form(method='POST' action='')
     div.form-group
       label(for='alcohol') Alcohol:
