@@ -7,8 +7,11 @@ block content
     div.form-group
       label(for='alcohol_name') Alcohol name:
       input#alcohol_name.form-control(type='text' placeholder='Alcohol Name' name='alcohol_name' required='true' value=(undefined===alcohol ? '' : alcohol.name) )
+    div.form-group  
       label(for='alcohol_description') Description:
-      input#alcohol_description.form-control(type='text' placeholder='Alcohol description' name='alcohol_description' required='true' value=(undefined===alcohol ? '' : alcohol.description))
+      textarea#alcohol_description.form-control(type='text' placeholder='Alcohol description' name='alcohol_description' required='true')
+        if (undefined!=alcohol)
+            | #{alcohol.description}
     div.form-group
       label(for='alcohol_category') Category:
       select#alcohol_category.form-control(type='select' name='alcohol_category' required='true')
@@ -19,7 +22,7 @@ block content
             else 
                 option(value=category._id selected=false) #{category.name}
     div.form-group
-      label(for='alcohol provenance') Provenance:
+      label(for='alcohol_provenance') Provenance:
       input#alcohol_provenance.form-control(type='text' name='alcohol_provenance' value=(undefined===alcohol ? ''  : (alcohol.provenance===undefined ? '' : alcohol.provenance)) )  
     button.btn.btn-primary(type='submit') Submit
   if errors

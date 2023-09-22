@@ -10,3 +10,7 @@ a {
 .error {
   color: red;
 }
+
+#alcohol_description {
+  height: 8rem;
+}
