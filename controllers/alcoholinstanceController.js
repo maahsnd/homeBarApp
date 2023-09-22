@@ -4,7 +4,6 @@ const { findById } = require('../models/alcohol');
 const AlcoholInstance = require('../models/alcohol_instance');
 const asyncHandler = require('express-async-handler');
 const { body, validationResult } = require('express-validator');
-const { DateTime } = require('luxon');
 
 //Display list of all alcoholInstances
 exports.alcoholInstance_list = asyncHandler(async (req, res, next) => {
@@ -45,7 +44,7 @@ exports.alcoholInstance_create_get = asyncHandler(async (req, res, next) => {
     Location.find({}, 'name').sort({ name: 1 }).exec()
   ]);
   res.render('alcoholinst_form', {
-    title: 'Create new acohol instance (bottle)',
+    title: 'Create new bottle',
     locations: allLocations,
     all_alcohols: allAlcohols
   });
@@ -145,7 +144,7 @@ exports.alcoholInstance_update_get = asyncHandler(async (req, res, next) => {
   ]);
 
   res.render('alcoholinst_form', {
-    title: 'Update alcohol instance (bottle)',
+    title: 'Update bottle',
     all_alcohols: all_alcohols,
     alcohol_inst: alcohol_inst,
     formatted_date: alcohol_inst.date_yyyy,
